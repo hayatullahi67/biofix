@@ -29,6 +29,12 @@ export function JobFaultDetails({ job }: { job: JobDetails }) {
           { label: "Urgency", value: <UrgencyBadge urgency={report.urgency} /> },
           { label: "Reported by", value: job.reporter?.name ?? "Hospital admin" },
           { label: "Reported", value: <time dateTime={toIsoString(report.createdAt)}>{formatDateTime(report.createdAt)}</time> },
+          ...(job.postedAt
+            ? [
+                { label: "Posted by", value: job.poster?.name ?? "Hospital" },
+                { label: "Posted", value: <time dateTime={toIsoString(job.postedAt)}>{formatDateTime(job.postedAt)}</time> },
+              ]
+            : []),
           { label: "Machine", value: job.machine.name },
           { label: "Ward", value: job.machine.ward },
         ]}
