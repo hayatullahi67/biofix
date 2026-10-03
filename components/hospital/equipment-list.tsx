@@ -66,7 +66,7 @@ export function EquipmentList() {
         columns={equipmentColumns}
         query={query}
         getRowKey={(machine) => machine.id}
-        mobileCard={(machine) => <MachineCard machine={machine} href={`/hospital/equipment/${machine.id}`} />}
+        mobileCard={(machine) => <MachineCard machine={machine} href={`/hospital/equipment/${machine.id}`} headingLevel={2} />}
         empty={<EmptyState icon={MonitorCog} title="No machines found" description="Try a different search or filter, or add a new machine to your register." action={<Button variant="outline" onClick={() => setAddOpen(true)}>Add machine</Button>} />}
       />
       <AddMachineDialog open={addOpen} onOpenChange={setAddOpen} />

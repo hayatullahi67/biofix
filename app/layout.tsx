@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { AppProviders } from "@/components/providers/app-providers";
 import { fontVariables } from "@/lib/fonts";
-import { absoluteUrl, siteConfig } from "@/lib/seo";
+import { siteConfig } from "@/lib/seo";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -17,7 +17,6 @@ export const metadata: Metadata = {
   publisher: siteConfig.name,
   applicationName: siteConfig.name,
   category: "health",
-  alternates: { canonical: absoluteUrl("/") },
   openGraph: {
     type: "website",
     url: siteConfig.url,

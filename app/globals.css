@@ -58,6 +58,9 @@
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
   }
+  .grid > * {
+    min-width: 0;
+  }
   ::selection {
     background: color-mix(in oklab, var(--primary) 22%, transparent);
   }

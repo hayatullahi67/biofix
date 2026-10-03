@@ -1,7 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Controller, useForm } from "react-hook-form";
+import { Controller, useForm, useWatch } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { ChipGroup } from "@/components/ui/chip-group";
 import { Field, fieldAria } from "@/components/ui/field";
@@ -13,14 +13,15 @@ import { AvatarUpload } from "./avatar-upload";
 
 export function ProfileForm({ technician }: { technician: Technician }) {
   const update = useUpdateTechnicianProfile();
-  const { control, register, handleSubmit, watch, formState: { errors, isDirty } } = useForm<TechnicianProfileValues>({
+  const { control, register, handleSubmit, formState: { errors, isDirty } } = useForm<TechnicianProfileValues>({
     resolver: zodResolver(technicianProfileSchema),
     values: { name: technician.name, phone: technician.phone, area: technician.location.area, city: technician.location.city, bio: technician.bio, skills: technician.skills, avatarUrl: technician.avatarUrl },
   });
+  const name = useWatch({ control, name: "name" });
 
   return (
     <form onSubmit={handleSubmit((values) => update.mutate(values))} noValidate className="space-y-6">
-      <Controller control={control} name="avatarUrl" render={({ field }) => <AvatarUpload name={watch("name")} value={field.value} onChange={field.onChange} />} />
+      <Controller control={control} name="avatarUrl" render={({ field }) => <AvatarUpload name={name} value={field.value} onChange={field.onChange} />} />
       <fieldset className="grid gap-4 sm:grid-cols-2">
         <legend className="sr-only">Personal details</legend>
         <Field id="tech-name" label="Full name" error={errors.name?.message}>

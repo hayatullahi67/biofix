@@ -3,7 +3,7 @@ import { DashboardShell } from "@/components/layout/dashboard-shell";
 import { privateRobots } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: { template: "%s · Technician | Biofix", default: "Technician dashboard" },
+  title: "Technician dashboard",
   robots: privateRobots,
 };
 
