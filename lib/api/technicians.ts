@@ -34,7 +34,7 @@ export function reviewTechnician(id: string, decision: "verified" | "rejected", 
 export function updateTechnicianProfile(id: string, input: TechnicianProfileInput): Promise<Technician> {
   return mutate((db) => {
     const technician = findOrThrow(db.technicians, id, "Technician");
-    Object.assign(technician, { name: input.name, phone: input.phone, bio: input.bio, skills: input.skills });
+    Object.assign(technician, { name: input.name, phone: input.phone, bio: input.bio, skills: input.skills, avatarUrl: input.avatarUrl });
     technician.location = { ...technician.location, area: input.area, city: input.city };
     return technician;
   });

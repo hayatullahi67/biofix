@@ -61,7 +61,7 @@ export interface Review {
   createdAt: string;
 }
 
-export type TechnicianProfileInput = Pick<Technician, "name" | "phone" | "bio" | "skills"> & {
+export type TechnicianProfileInput = Pick<Technician, "name" | "phone" | "bio" | "skills" | "avatarUrl"> & {
   area: string;
   city: string;
 };
