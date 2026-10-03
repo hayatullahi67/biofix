@@ -1,4 +1,4 @@
-import type { BillingRecord, EarningTransaction, EarningsSummary, MonthlyCount } from "@/types";
+import type { EarningTransaction, EarningsSummary, MonthlyCount } from "@/types";
 import { nowIso } from "@/lib/utils";
 import { mutate, query } from "./client";
 import { lastMonths, monthKey } from "./months";
@@ -27,10 +27,6 @@ export function getEarningsByMonth(technicianId: string): Promise<MonthlyCount[]
       value: payments.filter((txn) => monthKey(txn.createdAt) === key).reduce((sum, txn) => sum + txn.amount, 0),
     }));
   });
-}
-
-export function listBilling(hospitalId: string): Promise<BillingRecord[]> {
-  return query((db) => db.billing.filter((record) => record.hospitalId === hospitalId));
 }
 
 export function requestMaintenanceReport(hospitalId: string): Promise<{ fileName: string }> {

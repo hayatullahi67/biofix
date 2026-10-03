@@ -27,7 +27,6 @@ export const queryKeys = {
   earnings: (technicianId: string) => ["earnings", technicianId] as const,
   hospitals: ["hospitals"] as const,
   hospital: (id: string) => ["hospitals", id] as const,
-  billing: (hospitalId: string) => ["billing", hospitalId] as const,
   notifications: (userId: string) => ["notifications", userId] as const,
   admin: ["admin"] as const,
 };

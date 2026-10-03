@@ -10,17 +10,11 @@ export interface MonthlyCount {
   value: number;
 }
 
-export interface MonthlyRevenue {
-  month: string;
-  revenue: number;
-  jobs: number;
-}
-
 export interface PlatformStats {
   hospitals: number;
   technicians: number;
   jobs: number;
-  revenue: number;
+  machines: number;
   pendingVerifications: number;
   openDisputes: number;
 }

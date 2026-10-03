@@ -2,6 +2,11 @@ import type { FaqItem } from "@/types/content";
 
 export const faqItems: FaqItem[] = [
   {
+    question: "Is Biofix free?",
+    answer:
+      "Yes. Biofix is free for hospitals, nurses and biomedical technicians. There are no subscriptions or platform fees. Hospitals pay technicians directly for the repairs they carry out.",
+  },
+  {
     question: "What is Biofix?",
     answer:
       "Biofix is hospital equipment management software built for Nigeria. It keeps a live register of every machine in your hospital, lets nurses report faults from their phones, and connects you to verified biomedical technicians who fix them.",

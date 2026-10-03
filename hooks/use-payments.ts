@@ -21,11 +21,6 @@ export function useEarningsByMonth() {
   return useQuery({ queryKey: [...queryKeys.earnings(technicianId), "monthly"], queryFn: () => paymentsApi.getEarningsByMonth(technicianId) });
 }
 
-export function useBilling() {
-  const hospitalId = useHospitalId();
-  return useQuery({ queryKey: queryKeys.billing(hospitalId), queryFn: () => paymentsApi.listBilling(hospitalId) });
-}
-
 export function useMaintenanceReport() {
   const hospitalId = useHospitalId();
   return useApiMutation({

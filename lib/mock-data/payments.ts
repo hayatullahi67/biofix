@@ -1,4 +1,4 @@
-import type { BillingRecord, Dispute, EarningTransaction, PaymentMethod } from "@/types";
+import type { Dispute, EarningTransaction, PaymentMethod } from "@/types";
 import { daysAgo } from "./dates";
 
 type TxRow = [amount: number, method: PaymentMethod, description: string, days: number];
@@ -20,15 +20,6 @@ export const seedTransactions: EarningTransaction[] = txRows.map(([amount, metho
   method,
   description,
   createdAt: daysAgo(days),
-}));
-
-export const seedBilling: BillingRecord[] = [0, 1, 2, 3, 4, 5].map((month) => ({
-  id: `bill-${month + 1}`,
-  hospitalId: "hosp-1",
-  description: "Biofix Premium, monthly subscription",
-  amount: 25_000,
-  status: month === 4 ? "failed" : "paid",
-  date: daysAgo(month * 30 + 2),
 }));
 
 export const seedDisputes: Dispute[] = [

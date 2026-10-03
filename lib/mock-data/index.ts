@@ -3,7 +3,7 @@ import { seedJobs, seedReports } from "./jobs";
 import { seedMachineDocuments, seedMachineEvents } from "./machine-history";
 import { seedMachines } from "./machines";
 import { seedInvites, seedNotifications } from "./notifications";
-import { seedBilling, seedDisputes, seedTransactions } from "./payments";
+import { seedDisputes, seedTransactions } from "./payments";
 import { seedReviews } from "./reviews";
 import { seedTechnicians } from "./technicians";
 import { seedUsers } from "./users";
@@ -22,7 +22,6 @@ export function createSeedDatabase() {
     jobs: seedJobs,
     reviews: seedReviews,
     transactions: seedTransactions,
-    billing: seedBilling,
     disputes: seedDisputes,
     notifications: seedNotifications,
     invites: seedInvites,

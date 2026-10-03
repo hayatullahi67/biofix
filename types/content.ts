@@ -4,7 +4,7 @@ export interface FaqItem {
 }
 
 export interface PricingPlan {
-  id: "free" | "premium";
+  id: "free";
   name: string;
   priceNaira: number;
   period: string;

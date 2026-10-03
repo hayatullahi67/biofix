@@ -11,12 +11,11 @@ import { useHospitals } from "@/hooks/use-hospitals";
 import { formatDate, toIsoString } from "@/lib/utils";
 import type { HospitalSummary } from "@/types";
 
-const statusTone = { active: "success", trial: "warning", suspended: "danger" } as const;
+const statusTone = { active: "success", new: "info", suspended: "danger" } as const;
 
 const columns: Column<HospitalSummary>[] = [
   { key: "name", header: "Hospital", cell: (hospital) => <span><span className="block font-medium">{hospital.name}</span><span className="block text-xs text-muted-foreground">{hospital.email}</span></span> },
   { key: "location", header: "Location", cell: (hospital) => <address className="not-italic">{hospital.area}, {hospital.city}</address> },
-  { key: "plan", header: "Plan", cell: (hospital) => <Badge tone={hospital.plan === "premium" ? "primary" : "neutral"}>{hospital.plan === "premium" ? "Premium" : "Free"}</Badge> },
   { key: "machines", header: "Machines", className: "tabular-nums", cell: (hospital) => hospital.machinesCount },
   { key: "open", header: "Open jobs", className: "tabular-nums", cell: (hospital) => hospital.openJobsCount },
   { key: "status", header: "Status", cell: (hospital) => <Badge tone={statusTone[hospital.status]} dot>{hospital.status[0]?.toUpperCase() + hospital.status.slice(1)}</Badge> },
@@ -29,7 +28,7 @@ export function HospitalsAdmin() {
   const term = search.trim().toLowerCase();
   return (
     <div className="space-y-6">
-      <PageHeader eyebrow="Hospitals" title="Hospitals" description="Every hospital using Biofix, their plan and equipment." />
+      <PageHeader eyebrow="Hospitals" title="Hospitals" description="Every hospital using Biofix and the equipment they track." />
       <SearchBar value={search} onChange={setSearch} label="Search hospitals" placeholder="Search by name or city" />
       <DataTable
         caption="Hospitals on Biofix"

@@ -22,15 +22,6 @@ export interface EarningsSummary {
   paidJobs: number;
 }
 
-export interface BillingRecord {
-  id: string;
-  hospitalId: string;
-  description: string;
-  amount: number;
-  status: "paid" | "failed";
-  date: string;
-}
-
 export interface Dispute {
   id: string;
   jobId: string;

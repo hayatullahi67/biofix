@@ -14,9 +14,6 @@ function PricingCard({ plan }: { plan: PricingPlan }) {
         plan.highlighted ? "border-primary/40 shadow-[var(--shadow-lift)] ring-1 ring-primary/20" : "border-border",
       )}
     >
-      {plan.highlighted ? (
-        <p className="absolute -top-3 left-8 rounded-full bg-primary px-3 py-1 text-xs font-medium text-primary-foreground">Most popular</p>
-      ) : null}
       <header>
         <h3 id={`plan-${plan.id}`} className="text-lg font-semibold">{plan.name}</h3>
         <p className="mt-1 text-sm text-muted-foreground">{plan.description}</p>
@@ -35,7 +32,7 @@ function PricingCard({ plan }: { plan: PricingPlan }) {
       </ul>
       <footer>
         <Button asChild variant={plan.highlighted ? "primary" : "outline"} className="w-full" size="lg">
-          <Link href={`/signup?type=hospital&plan=${plan.id}`}>{plan.cta}</Link>
+          <Link href="/signup">{plan.cta}</Link>
         </Button>
       </footer>
     </article>
@@ -47,11 +44,11 @@ export function Pricing({ plans }: { plans: PricingPlan[] }) {
     <MarketingSection
       id="pricing"
       eyebrow="Pricing"
-      title="Simple pricing for medical equipment maintenance"
-      intro="Start free with up to 15 machines. Upgrade when you need preventive maintenance, reports and priority technicians. Technicians join free."
+      title="Medical equipment maintenance software, free for every hospital"
+      intro="No subscriptions and no fees. Hospitals pay technicians directly for repairs, and everything else in Biofix is free."
       className="border-y border-border bg-card/40"
     >
-      <ul className="mx-auto grid max-w-4xl gap-6 md:grid-cols-2">
+      <ul className="mx-auto grid max-w-md gap-6">
         {plans.map((plan) => (
           <li key={plan.id}>
             <PricingCard plan={plan} />

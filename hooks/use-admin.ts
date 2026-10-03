@@ -17,18 +17,10 @@ export function useResolveDispute() {
   return useApiMutation({ mutationFn: adminApi.resolveDispute, invalidate: [queryKeys.admin], successMessage: "Dispute marked as resolved" });
 }
 
-export function useRevenueSeries() {
-  return useQuery({
-    queryKey: [...queryKeys.admin, "revenue"],
-    queryFn: adminApi.getPlatformRevenue,
-    select: (rows) => rows.map((row) => ({ month: row.month, value: Math.round(row.revenue) })),
-  });
+export function useJobsPostedSeries() {
+  return useQuery({ queryKey: [...queryKeys.admin, "jobs-posted"], queryFn: adminApi.getJobsPostedByMonth });
 }
 
-export function useJobsSeries() {
-  return useQuery({
-    queryKey: [...queryKeys.admin, "revenue"],
-    queryFn: adminApi.getPlatformRevenue,
-    select: (rows) => rows.map((row) => ({ month: row.month, value: row.jobs })),
-  });
+export function useRepairsCompletedSeries() {
+  return useQuery({ queryKey: [...queryKeys.admin, "repairs-completed"], queryFn: adminApi.getRepairsCompletedByMonth });
 }

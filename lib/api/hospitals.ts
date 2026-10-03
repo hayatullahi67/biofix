@@ -1,4 +1,4 @@
-import type { Hospital, HospitalProfileInput, HospitalSummary, SubscriptionPlan } from "@/types";
+import type { Hospital, HospitalProfileInput, HospitalSummary } from "@/types";
 import { findOrThrow, mutate, query } from "./client";
 
 const openStatuses = ["reported", "open", "accepted", "arrived", "quoted", "approved", "fixed"];
@@ -19,13 +19,4 @@ export function getHospital(id: string): Promise<Hospital> {
 
 export function updateHospitalProfile(id: string, input: HospitalProfileInput): Promise<Hospital> {
   return mutate((db) => Object.assign(findOrThrow(db.hospitals, id, "Hospital"), input));
-}
-
-export function changePlan(id: string, plan: SubscriptionPlan): Promise<Hospital> {
-  return mutate((db) => {
-    const hospital = findOrThrow(db.hospitals, id, "Hospital");
-    hospital.plan = plan;
-    hospital.status = "active";
-    return hospital;
-  });
 }

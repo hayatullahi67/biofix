@@ -1,5 +1,4 @@
-export type SubscriptionPlan = "free" | "premium";
-export type HospitalStatus = "active" | "suspended" | "trial";
+export type HospitalStatus = "active" | "suspended" | "new";
 
 export interface GeoPoint {
   lat: number;
@@ -15,7 +14,6 @@ export interface Hospital {
   address: string;
   phone: string;
   email: string;
-  plan: SubscriptionPlan;
   status: HospitalStatus;
   bedCount: number;
   coordinates: GeoPoint;
