@@ -1,5 +1,6 @@
 import type { MockDatabase } from "@/lib/mock-data";
-import { DEMO_PASSWORD, demoAccounts } from "@/lib/mock-data";
+import { DEMO_PASSWORD } from "@/lib/mock-data";
+import { demoAccounts } from "@/lib/domain/demo-accounts";
 import type { HospitalSignupInput, LoginInput, Session, TechnicianSignupInput, User, UserRole } from "@/types";
 import { createId, daysFromNow, nowIso } from "@/lib/utils";
 import { ApiError, mutate, query } from "./client";

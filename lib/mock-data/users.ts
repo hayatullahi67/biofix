@@ -1,4 +1,4 @@
-import type { User, UserRole } from "@/types";
+import type { User } from "@/types";
 import { daysAgo } from "./dates";
 
 export const DEMO_PASSWORD = "biofix123";
@@ -14,10 +14,3 @@ export const seedUsers: User[] = [
   { id: "user-nurse-5", name: "Temitope Ogunleye", email: "temitope@gracespecialist.ng", phone: "+234 802 222 3305", role: "nurse", hospitalId: "hosp-1", ward: "Paediatrics", createdAt: daysAgo(45) },
   { id: "user-super-1", name: "Tunde Bakare", email: "super@biofix.demo", phone: "+234 700 246 3349", role: "super_admin", createdAt: daysAgo(500) },
 ];
-
-export const demoAccounts: Record<UserRole, { email: string; label: string; description: string }> = {
-  hospital_admin: { email: "admin@biofix.demo", label: "Hospital Admin", description: "Grace Specialist Hospital" },
-  nurse: { email: "nurse@biofix.demo", label: "Nurse", description: "ICU, Grace Specialist" },
-  technician: { email: "tech@biofix.demo", label: "Technician", description: "Verified, Ikeja" },
-  super_admin: { email: "super@biofix.demo", label: "Super Admin", description: "Biofix operations" },
-};

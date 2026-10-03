@@ -8,7 +8,7 @@ import { seedReviews } from "./reviews";
 import { seedTechnicians } from "./technicians";
 import { seedUsers } from "./users";
 
-export { DEMO_PASSWORD, demoAccounts } from "./users";
+export { DEMO_PASSWORD } from "./users";
 
 export function createSeedDatabase() {
   return structuredClone({
