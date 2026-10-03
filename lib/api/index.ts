@@ -1,0 +1,14 @@
+export * as adminApi from "./admin";
+export * as authApi from "./auth";
+export * as hospitalsApi from "./hospitals";
+export * as invitesApi from "./invites";
+export * as jobActionsApi from "./job-actions";
+export * as jobsApi from "./jobs";
+export * as machinesApi from "./machines";
+export * as notificationsApi from "./notifications";
+export * as paymentsApi from "./payments";
+export * as reportsApi from "./reports";
+export * as statsApi from "./stats";
+export * as teamApi from "./team";
+export * as techniciansApi from "./technicians";
+export { ApiError } from "./client";
