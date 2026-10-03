@@ -35,12 +35,12 @@ export default function TrendChart({ data, kind, seriesLabel, formatValue = Stri
   const tooltip = <Tooltip cursor={{ fill: "var(--muted)", stroke: "var(--border)" }} content={<ChartTooltip seriesLabel={seriesLabel} formatValue={formatValue} />} />;
   const grid = <CartesianGrid vertical={false} stroke="var(--border)" strokeDasharray="0" />;
   const xAxis = <XAxis dataKey="month" tickLine={false} axisLine={false} tick={axisTick} dy={8} />;
-  const yAxis = <YAxis tickLine={false} axisLine={false} tick={axisTick} width={48} tickFormatter={formatAxis} allowDecimals={false} />;
+  const yAxis = <YAxis tickLine={false} axisLine={false} tick={axisTick} width={60} tickFormatter={formatAxis} allowDecimals={false} />;
 
   return (
     <ResponsiveContainer width="100%" height="100%">
       {kind === "bar" ? (
-        <BarChart data={data} margin={{ top: 8, right: 4, left: -8, bottom: 0 }} barCategoryGap="32%">
+        <BarChart data={data} margin={{ top: 8, right: 8, left: 0, bottom: 0 }} barCategoryGap="32%">
           {grid}
           {xAxis}
           {yAxis}
@@ -48,7 +48,7 @@ export default function TrendChart({ data, kind, seriesLabel, formatValue = Stri
           <Bar dataKey="value" name={seriesLabel} fill="var(--chart-1)" radius={[4, 4, 0, 0]} maxBarSize={36} />
         </BarChart>
       ) : (
-        <AreaChart data={data} margin={{ top: 8, right: 4, left: -8, bottom: 0 }}>
+        <AreaChart data={data} margin={{ top: 8, right: 8, left: 0, bottom: 0 }}>
           <defs>
             <linearGradient id="trend-fill" x1="0" y1="0" x2="0" y2="1">
               <stop offset="0%" stopColor="var(--chart-1)" stopOpacity={0.22} />

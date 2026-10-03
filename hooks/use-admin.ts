@@ -9,10 +9,6 @@ export function usePlatformStats() {
   return useQuery({ queryKey: [...queryKeys.admin, "stats"], queryFn: adminApi.getPlatformStats });
 }
 
-export function usePlatformRevenue() {
-  return useQuery({ queryKey: [...queryKeys.admin, "revenue"], queryFn: adminApi.getPlatformRevenue });
-}
-
 export function usePayouts() {
   return useQuery({ queryKey: [...queryKeys.admin, "payouts"], queryFn: adminApi.listPayouts });
 }
@@ -23,4 +19,20 @@ export function useDisputes() {
 
 export function useResolveDispute() {
   return useApiMutation({ mutationFn: adminApi.resolveDispute, invalidate: [queryKeys.admin], successMessage: "Dispute marked as resolved" });
+}
+
+export function useRevenueSeries() {
+  return useQuery({
+    queryKey: [...queryKeys.admin, "revenue"],
+    queryFn: adminApi.getPlatformRevenue,
+    select: (rows) => rows.map((row) => ({ month: row.month, value: Math.round(row.revenue) })),
+  });
+}
+
+export function useJobsSeries() {
+  return useQuery({
+    queryKey: [...queryKeys.admin, "revenue"],
+    queryFn: adminApi.getPlatformRevenue,
+    select: (rows) => rows.map((row) => ({ month: row.month, value: row.jobs })),
+  });
 }
