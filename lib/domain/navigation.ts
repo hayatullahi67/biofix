@@ -5,6 +5,7 @@ import {
   House,
   LayoutDashboard,
   type LucideIcon,
+  MessageSquare,
   MonitorCog,
   Settings,
   ShieldCheck,
@@ -20,6 +21,7 @@ export interface NavItem {
   href: string;
   label: string;
   icon: LucideIcon;
+  desktopOnly?: boolean;
 }
 
 export const roleNavigation: Record<UserRole, NavItem[]> = {
@@ -27,15 +29,18 @@ export const roleNavigation: Record<UserRole, NavItem[]> = {
     { href: "/hospital", label: "Overview", icon: LayoutDashboard },
     { href: "/hospital/equipment", label: "Equipment", icon: MonitorCog },
     { href: "/hospital/jobs", label: "Jobs", icon: Wrench },
-    { href: "/hospital/team", label: "Team", icon: Users },
+    { href: "/hospital/messages", label: "Messages", icon: MessageSquare },
+    { href: "/hospital/team", label: "Team", icon: Users, desktopOnly: true },
     { href: "/hospital/settings", label: "Settings", icon: Settings },
   ],
   nurse: [
     { href: "/nurse", label: "Home", icon: House },
     { href: "/nurse/report", label: "Report fault", icon: TriangleAlert },
+    { href: "/nurse/messages", label: "Messages", icon: MessageSquare },
   ],
   technician: [
     { href: "/tech", label: "Jobs", icon: Briefcase },
+    { href: "/tech/messages", label: "Messages", icon: MessageSquare },
     { href: "/tech/earnings", label: "Earnings", icon: Wallet },
     { href: "/tech/profile", label: "Profile", icon: UserRound },
   ],

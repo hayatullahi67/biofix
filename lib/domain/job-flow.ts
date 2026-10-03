@@ -1,8 +1,8 @@
 import type { JobStatus, JobTab, MachineType, PaymentMethod, TechnicianSkill, Urgency } from "@/types";
 
 export const jobStatusLabels: Record<JobStatus, string> = {
-  reported: "Reported",
-  open: "Finding technician",
+  reported: "Not posted yet",
+  open: "Open to technicians",
   accepted: "Technician assigned",
   arrived: "Technician on site",
   quoted: "Quote received",
@@ -15,8 +15,8 @@ export const jobStatusLabels: Record<JobStatus, string> = {
 
 export const jobTimelineLabels: Record<JobStatus, string> = {
   reported: "Fault reported",
-  open: "Posted to verified technicians",
-  accepted: "Job accepted",
+  open: "Job posted to technicians",
+  accepted: "Technician assigned",
   arrived: "Technician arrived on site",
   quoted: "Quote sent",
   approved: "Quote approved",
@@ -30,9 +30,9 @@ export const jobFlow: JobStatus[] = ["reported", "open", "accepted", "arrived", 
 
 export const jobTabStatuses: Record<JobTab, JobStatus[]> = {
   all: [...jobFlow, "disputed"],
-  reported: ["reported", "open"],
-  in_progress: ["accepted", "arrived", "quoted", "approved"],
-  awaiting: ["fixed"],
+  reported: ["reported"],
+  open: ["open"],
+  in_progress: ["accepted", "arrived", "quoted", "approved", "fixed"],
   completed: ["confirmed", "paid"],
 };
 

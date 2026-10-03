@@ -2,12 +2,11 @@
 
 import { CircleCheck, Hourglass, ShieldAlert } from "lucide-react";
 import { QuoteSummary } from "@/components/shared/quote-summary";
-import { Button } from "@/components/ui/button";
-import { useAcceptJob } from "@/hooks/use-job-actions";
 import { useCurrentUser } from "@/hooks/use-session";
 import { useMyTechnicianProfile } from "@/hooks/use-technicians";
 import { formatNaira } from "@/lib/utils";
 import type { JobDetails } from "@/types";
+import { ApplyForm } from "./apply-form";
 import { ArriveAction } from "./arrive-action";
 import { FixReportForm } from "./fix-report-form";
 import { QuoteForm } from "./quote-form";
@@ -25,18 +24,15 @@ function Waiting({ children, done = false }: { children: React.ReactNode; done?:
 export function TechJobActions({ job }: { job: JobDetails }) {
   const user = useCurrentUser();
   const profile = useMyTechnicianProfile();
-  const accept = useAcceptJob();
   const mine = job.technicianId === user.id;
 
   if (job.status === "open") {
     if (profile.data && profile.data.verificationStatus !== "verified") {
-      return <p className="flex gap-3 rounded-xl bg-warning-soft p-4 text-sm"><ShieldAlert className="size-5 shrink-0 text-warning" aria-hidden="true" />Only verified technicians can accept jobs. Complete verification on your profile.</p>;
+      return <p className="flex gap-3 rounded-xl bg-warning-soft p-4 text-sm"><ShieldAlert className="size-5 shrink-0 text-warning" aria-hidden="true" />Only verified technicians can apply for jobs. Complete verification on your profile.</p>;
     }
-    return (
-      <Button size="lg" className="w-full" onClick={() => accept.mutate(job.id)} loading={accept.isPending || profile.isPending}>
-        Accept job · {formatNaira(job.estimatedPay)}
-      </Button>
-    );
+    const applied = job.applicants.some((applicant) => applicant.technicianId === user.id);
+    if (applied) return <Waiting>You&apos;ve applied. The hospital is reviewing technicians and will assign one soon.</Waiting>;
+    return <ApplyForm job={job} />;
   }
   if (!mine) return <Waiting>Another technician has taken this job.</Waiting>;
 

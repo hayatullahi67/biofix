@@ -46,7 +46,7 @@ export function JobCard({ job, href, showStatus = false, headingLevel = 3 }: Job
         </li>
       </ul>
       <footer className="flex items-center justify-between border-t border-border pt-4">
-        <span className="text-xs text-muted-foreground">{job.quote ? "Quoted" : "Estimated pay"}</span>
+        <span className="text-xs text-muted-foreground">{job.status === "open" ? `${job.applicants.length} technician${job.applicants.length === 1 ? "" : "s"} applied` : job.quote ? "Quoted" : "Estimated pay"}</span>
         <span className="text-base font-semibold tabular-nums text-foreground">{formatNaira(pay)}</span>
       </footer>
     </Card>

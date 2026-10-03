@@ -12,7 +12,12 @@ export function expandJob(db: MockDatabase, job: Job, viewer?: Technician): JobD
   const reporter = db.users.find((user) => user.id === report.reportedBy);
   const technician = job.technicianId ? db.technicians.find((tech) => tech.id === job.technicianId) : undefined;
   const distance = viewer ? distanceKm(viewer.location, hospital.coordinates) : undefined;
-  return { ...job, machine, hospital, report, reporter, technician, distanceKm: distance };
+  const poster = job.postedBy ? db.users.find((user) => user.id === job.postedBy) : undefined;
+  const applicants = (job.applications ?? []).flatMap((application) => {
+    const applicant = db.technicians.find((tech) => tech.id === application.technicianId);
+    return applicant ? [{ ...application, technician: applicant }] : [];
+  });
+  return { ...job, machine, hospital, report, reporter, technician, poster, applicants, distanceKm: distance };
 }
 
 export function advanceJob(job: Job, status: JobStatus, actor?: string): void {

@@ -1,4 +1,5 @@
 import type { FaultCategory, FaultReport, Job, JobStatus, Quote, Urgency } from "@/types";
+import { seedApplications, seedContacts } from "./job-extras";
 import { jobFlow, jobTimelineLabels } from "@/lib/domain/job-flow";
 import { hoursAgo } from "./dates";
 import { seedMachines } from "./machines";
@@ -55,16 +56,22 @@ export const seedReports: FaultReport[] = rows.map(([machineIndex, , urgency, ca
   createdAt: hoursAgo(hours),
 }));
 
-export const seedJobs: Job[] = rows.map(([machineIndex, status, , , , , technicianId, hours, pay], index) => {
+export const seedJobs: Job[] = rows.map(([machineIndex, status, , , , reporterId, technicianId, hours, pay], index) => {
   const reached = status === "disputed" ? jobFlow.slice(0, jobFlow.indexOf("fixed") + 1) : jobFlow.slice(0, jobFlow.indexOf(status) + 1);
   const steps: JobStatus[] = status === "disputed" ? [...reached, "disputed"] : reached;
   const stepGap = Math.max(1, Math.floor(hours / (steps.length + 1)));
   const quoteReached = steps.includes("quoted");
+  const hospitalId = seedMachines[machineIndex - 1]?.hospitalId ?? "hosp-1";
+  const posted = status !== "reported";
   return {
     id: `job-${index + 1}`,
+    postedBy: posted ? reporterId : undefined,
+    postedAt: posted ? hoursAgo(hours - stepGap) : undefined,
+    contact: posted ? seedContacts[hospitalId] : undefined,
+    applications: seedApplications[`job-${index + 1}`] ?? [],
     faultReportId: `rep-${index + 1}`,
     machineId: `mach-${machineIndex}`,
-    hospitalId: seedMachines[machineIndex - 1]?.hospitalId ?? "hosp-1",
+    hospitalId,
     technicianId,
     status,
     quote: quoteReached ? sampleQuote(hours - stepGap * 4) : undefined,

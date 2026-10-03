@@ -9,7 +9,7 @@ import type { UserRole } from "@/types";
 
 export function MobileBottomNav({ role }: { role: UserRole }) {
   const pathname = usePathname();
-  const items = roleNavigation[role];
+  const items = roleNavigation[role].filter((item) => !item.desktopOnly);
   return (
     <nav aria-label="Mobile navigation" className="glass fixed inset-x-0 bottom-0 z-40 border-t border-border pb-[env(safe-area-inset-bottom)] md:hidden">
       <ul className="mx-auto grid max-w-md" style={{ gridTemplateColumns: `repeat(${items.length}, minmax(0, 1fr))` }}>

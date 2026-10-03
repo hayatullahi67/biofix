@@ -6,8 +6,8 @@ export const problemStats = [
 
 export const howItWorksSteps = [
   { title: "Register your machines", description: "Add every machine with its ward, serial number and service interval. Print a QR sticker for each one." },
-  { title: "Nurses scan and report", description: "When something breaks, a nurse scans the sticker, snaps a photo and reports the fault in under a minute." },
-  { title: "A verified technician responds", description: "Nearby biomedical technicians with the right skills see the job, accept it and send you a clear quote." },
+  { title: "Report and post the job", description: "A nurse scans the sticker and reports the fault in a minute. The hospital posts it as a job with a phone, email or in-app chat contact." },
+  { title: "Technicians apply, you choose", description: "Verified biomedical technicians nearby apply or message you. Compare them, pick one, and get a clear itemised quote." },
   { title: "Approve, confirm and pay directly", description: "Approve the quote, confirm the machine works, then pay the technician directly by cash or transfer. Biofix keeps the record." },
 ];
 
@@ -19,7 +19,7 @@ export const hospitalBenefits = [
 ];
 
 export const technicianBenefits = [
-  { title: "Jobs near you", description: "See open repair jobs in Lagos and Abuja that match your skills, sorted by distance." },
+  { title: "Jobs near you", description: "See repair jobs hospitals in Lagos and Abuja have posted, sorted by distance. Apply, call or message them directly." },
   { title: "Get paid directly", description: "Hospitals pay you directly by cash or bank transfer once they confirm the repair, and every payment is logged in your earnings." },
   { title: "Build your reputation", description: "Verified badge, ratings and reviews from every hospital you work with." },
 ];

@@ -11,7 +11,7 @@ import { useHospitalJobs } from "@/hooks/use-jobs";
 import { jobTabStatuses } from "@/lib/domain/job-flow";
 import { formatRelative, toIsoString } from "@/lib/utils";
 
-const openStatuses = [...jobTabStatuses.reported, ...jobTabStatuses.in_progress, ...jobTabStatuses.awaiting];
+const openStatuses = [...jobTabStatuses.reported, ...jobTabStatuses.open, ...jobTabStatuses.in_progress];
 
 export function OpenJobsList() {
   const query = useHospitalJobs();

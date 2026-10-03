@@ -74,12 +74,30 @@ export interface FixReport {
 
 export type FixReportInput = Omit<FixReport, "submittedAt">;
 
+export interface JobContact {
+  name: string;
+  phone?: string;
+  email?: string;
+  allowMessages: boolean;
+}
+
+export interface JobApplication {
+  id: string;
+  technicianId: string;
+  message: string;
+  createdAt: string;
+}
+
 export interface Job {
   id: string;
   faultReportId: string;
   machineId: string;
   hospitalId: string;
   technicianId?: string;
+  postedBy?: string;
+  postedAt?: string;
+  contact?: JobContact;
+  applications: JobApplication[];
   status: JobStatus;
   quote?: Quote;
   fixReport?: FixReport;
@@ -97,10 +115,12 @@ export interface JobDetails extends Job {
   report: FaultReport;
   reporter?: User;
   technician?: Technician;
+  poster?: User;
+  applicants: (JobApplication & { technician: Technician })[];
   distanceKm?: number;
 }
 
-export type JobTab = "all" | "reported" | "in_progress" | "awaiting" | "completed";
+export type JobTab = "all" | "reported" | "open" | "in_progress" | "completed";
 
 export interface ReportSummary {
   report: FaultReport;

@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Send } from "lucide-react";
-import { Controller, useForm } from "react-hook-form";
+import { Controller, useForm, useWatch } from "react-hook-form";
 import { MachineCombobox } from "@/components/shared/machine-combobox";
 import { PhotoUploader } from "@/components/shared/photo-uploader";
 import { Button } from "@/components/ui/button";
@@ -13,7 +13,9 @@ import { Textarea } from "@/components/ui/input";
 import { SegmentedControl } from "@/components/ui/segmented-control";
 import { useCreateReport } from "@/hooks/use-job-actions";
 import { useCurrentUser } from "@/hooks/use-session";
+import { toJobContact } from "@/lib/validation/job-posting";
 import { reportSchema, type ReportValues } from "@/lib/validation/report";
+import { PostNowStep } from "./post-now-step";
 import { faultCategories, type CreatedReport, type Machine, type Urgency } from "@/types";
 
 const urgencyOptions: { value: Urgency; label: string; tone: "neutral" | "warning" | "danger" }[] = [
@@ -35,18 +37,33 @@ interface ReportFaultFormProps {
   machines: Machine[];
   initialMachineId: string;
   onCreated: (created: CreatedReport, machine: Machine) => void;
+  alwaysPost?: boolean;
 }
 
-export function ReportFaultForm({ machines, initialMachineId, onCreated }: ReportFaultFormProps) {
+export function ReportFaultForm({ machines, initialMachineId, onCreated, alwaysPost = false }: ReportFaultFormProps) {
   const user = useCurrentUser();
   const create = useCreateReport();
   const { control, register, handleSubmit, formState: { errors } } = useForm<ReportValues>({
     resolver: zodResolver(reportSchema),
-    defaultValues: { machineId: initialMachineId, photos: [], description: "", urgency: "medium" },
+    defaultValues: {
+      machineId: initialMachineId,
+      photos: [],
+      description: "",
+      urgency: "medium",
+      postNow: alwaysPost,
+      contact: { name: user.name, phone: user.phone, email: user.email.endsWith(".demo") ? "" : user.email, allowMessages: true },
+    },
   });
+  const postNow = useWatch({ control, name: "postNow" });
 
   const submit = handleSubmit((values) =>
-    create.mutate({ ...values, reportedBy: user.id }, { onSuccess: (created) => onCreated(created, machines.find((machine) => machine.id === values.machineId) ?? machines[0]) }),
+    create.mutate(
+      {
+        input: { machineId: values.machineId, photos: values.photos, category: values.category, description: values.description, urgency: values.urgency, reportedBy: user.id },
+        contact: values.postNow ? toJobContact(values.contact) : undefined,
+      },
+      { onSuccess: (created) => onCreated(created, machines.find((machine) => machine.id === values.machineId) ?? machines[0]) },
+    ),
   );
 
   return (
@@ -79,11 +96,14 @@ export function ReportFaultForm({ machines, initialMachineId, onCreated }: Repor
             <SegmentedControl name="urgency" legend="How urgent is it?" options={urgencyOptions} value={field.value} onChange={field.onChange} />
           )} />
         </Step>
+        <Step number={6}>
+          <PostNowStep register={register} errors={errors} postNow={postNow} alwaysPost={alwaysPost} />
+        </Step>
       </ol>
       <div className="glass sticky bottom-20 z-10 -mx-4 border-t border-border px-4 py-3 md:static md:mx-0 md:border-0 md:bg-transparent md:p-0 md:backdrop-blur-none">
         <Button type="submit" size="lg" className="w-full" loading={create.isPending}>
           <Send aria-hidden="true" />
-          Send report
+          {postNow ? "Post job" : "Send report"}
         </Button>
       </div>
     </form>

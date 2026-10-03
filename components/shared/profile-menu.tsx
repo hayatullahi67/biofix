@@ -1,6 +1,6 @@
 "use client";
 
-import { ChevronDown, LogOut, UserRound } from "lucide-react";
+import { ChevronDown, LogOut, UserRound, Users } from "lucide-react";
 import Link from "next/link";
 import { Avatar } from "@/components/ui/avatar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
@@ -34,6 +34,14 @@ export function ProfileMenu() {
             Account
           </Link>
         </DropdownMenuItem>
+        {user.role === "hospital_admin" ? (
+          <DropdownMenuItem asChild>
+            <Link href="/hospital/team">
+              <Users aria-hidden="true" />
+              Team
+            </Link>
+          </DropdownMenuItem>
+        ) : null}
         <div className="flex items-center justify-between px-2.5 py-1.5 text-sm">
           <span>Theme</span>
           <ThemeToggle />

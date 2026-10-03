@@ -2,6 +2,7 @@ import { seedHospitals } from "./hospitals";
 import { seedJobs, seedReports } from "./jobs";
 import { seedMachineDocuments, seedMachineEvents } from "./machine-history";
 import { seedMachines } from "./machines";
+import { seedMessages } from "./messages";
 import { seedInvites, seedNotifications } from "./notifications";
 import { seedDisputes, seedTransactions } from "./payments";
 import { seedReviews } from "./reviews";
@@ -25,6 +26,7 @@ export function createSeedDatabase() {
     disputes: seedDisputes,
     notifications: seedNotifications,
     invites: seedInvites,
+    messages: seedMessages,
     credentials: {} as Record<string, string>,
   });
 }

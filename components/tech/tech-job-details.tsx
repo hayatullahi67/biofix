@@ -11,6 +11,7 @@ import { Card } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useJob } from "@/hooks/use-jobs";
 import { formatNaira } from "@/lib/utils";
+import { HospitalContactCard } from "./hospital-contact-card";
 import { HospitalInfoCard } from "./hospital-info-card";
 import { JobProgress } from "./job-progress";
 import { TechJobActions } from "./tech-job-actions";
@@ -42,6 +43,7 @@ export function TechJobDetails({ id }: { id: string }) {
                 <JobProgress status={job.status} />
                 <TechJobActions job={job} />
               </Card>
+              <HospitalContactCard job={job} />
               <HospitalInfoCard hospital={job.hospital} distanceKm={job.distanceKm} />
             </div>
           </div>

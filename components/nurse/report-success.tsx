@@ -14,9 +14,10 @@ export function ReportSuccess({ created, machine, onReset }: { created: CreatedR
         <span className="mx-auto flex size-14 animate-[rise_400ms_ease-out] items-center justify-center rounded-full bg-success-soft text-success">
           <CircleCheck className="size-7" aria-hidden="true" />
         </span>
-        <h1 id="success-heading" className="text-2xl font-semibold tracking-tight">Report sent</h1>
+        <h1 id="success-heading" className="text-2xl font-semibold tracking-tight">{created.job.status === "open" ? "Job posted" : "Report sent"}</h1>
         <p className="text-sm text-muted-foreground">
-          Your admin has been notified about <strong className="text-foreground">{machine.name}</strong> in {machine.ward}.
+          {created.job.status === "open" ? "Verified technicians can now apply or reach out about " : "Your admin has been notified about "}
+          <strong className="text-foreground">{machine.name}</strong> in {machine.ward}.
         </p>
         <p className="inline-flex rounded-lg bg-muted px-3 py-1.5 font-mono text-sm">Report ID: {created.report.id}</p>
       </Card>

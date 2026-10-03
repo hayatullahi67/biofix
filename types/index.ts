@@ -3,6 +3,7 @@ export type * from "./hospital";
 export type * from "./invite";
 export type * from "./job";
 export type * from "./machine";
+export type * from "./message";
 export type * from "./notification";
 export type * from "./payment";
 export type * from "./stats";

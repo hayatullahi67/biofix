@@ -1,13 +1,16 @@
 "use client";
 
-import { CircleCheck, Loader2, Search } from "lucide-react";
+import { CircleCheck, Loader2, Send } from "lucide-react";
+import { useState } from "react";
+import { PostJobDialog } from "@/components/shared/post-job-dialog";
 import { QuoteSummary } from "@/components/shared/quote-summary";
 import { StarRating } from "@/components/ui/star-rating";
 import { Button } from "@/components/ui/button";
-import { useApproveQuote, useConfirmJob, useFindTechnician } from "@/hooks/use-job-actions";
+import { useApproveQuote, useConfirmJob } from "@/hooks/use-job-actions";
 import { paymentMethodLabels } from "@/lib/domain/job-flow";
 import { formatNaira } from "@/lib/utils";
 import type { JobDetails } from "@/types";
+import { ApplicantsList } from "./applicants-list";
 import { RecordPayment } from "./record-payment";
 import { RateTechnician } from "./rate-technician";
 
@@ -21,20 +24,24 @@ function Notice({ children, spinning = false }: { children: React.ReactNode; spi
 }
 
 export function HospitalJobActions({ job }: { job: JobDetails }) {
-  const find = useFindTechnician();
+  const [posting, setPosting] = useState(false);
   const approve = useApproveQuote();
   const confirm = useConfirmJob();
 
   switch (job.status) {
     case "reported":
       return (
-        <Button size="lg" className="w-full" onClick={() => find.mutate(job.id)} loading={find.isPending}>
-          <Search aria-hidden="true" />
-          Find technician
-        </Button>
+        <div className="space-y-2">
+          <Button size="lg" className="w-full" onClick={() => setPosting(true)}>
+            <Send aria-hidden="true" />
+            Post job to technicians
+          </Button>
+          <p className="text-center text-xs text-muted-foreground">Add how technicians can reach you. They&apos;ll apply or contact you.</p>
+          <PostJobDialog jobId={job.id} machineName={job.machine.name} open={posting} onOpenChange={setPosting} />
+        </div>
       );
     case "open":
-      return <Notice spinning>Posted to verified technicians nearby. You&apos;ll be notified when one accepts.</Notice>;
+      return <ApplicantsList job={job} />;
     case "accepted":
       return <Notice spinning>The technician is on the way to your hospital.</Notice>;
     case "arrived":

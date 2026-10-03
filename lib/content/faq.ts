@@ -14,7 +14,7 @@ export const faqItems: FaqItem[] = [
   {
     question: "How do nurses report a broken machine?",
     answer:
-      "Every machine gets a Biofix QR sticker. A nurse scans it with their phone camera, takes a photo of the fault, picks what is wrong and sends the report. The hospital admin is notified immediately and can post the job to technicians nearby.",
+      "Every machine gets a Biofix QR sticker. A nurse scans it with their phone camera, takes a photo of the fault, picks what is wrong and sends the report. The hospital admin is notified and posts it as a job, or the nurse can post it straight away on the hospital's behalf, with a phone number, email or in-app chat for technicians to reach them.",
   },
   {
     question: "How are biomedical technicians verified?",

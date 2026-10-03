@@ -11,7 +11,7 @@ import type { JobDetails } from "@/types";
 import { JobList } from "./job-list";
 import { VerificationBanner } from "./verification-banner";
 
-type MyFilter = "active" | "completed";
+type MyFilter = "applied" | "active" | "completed";
 
 const byDistance = (jobs: JobDetails[]) => [...jobs].sort((a, b) => (a.distanceKm ?? 0) - (b.distanceKm ?? 0));
 
@@ -21,11 +21,13 @@ export function TechJobsBoard() {
   const myJobs = useTechnicianJobs();
   const [myFilter, setMyFilter] = useState<MyFilter>("active");
   const isActive = (job: JobDetails) => activeTechnicianStatuses.includes(job.status);
-  const selectMine = (jobs: JobDetails[]) => jobs.filter((job) => (myFilter === "active" ? isActive(job) : !isActive(job)));
+  const isApplied = (job: JobDetails) => job.status === "open";
+  const selectMine = (jobs: JobDetails[]) =>
+    jobs.filter((job) => (myFilter === "applied" ? isApplied(job) : myFilter === "active" ? isActive(job) : !isActive(job) && !isApplied(job)));
 
   return (
     <div className="space-y-6">
-      <PageHeader eyebrow="Jobs" title={`Welcome, ${user.name.split(" ")[0]}`} description="Repair jobs from hospitals that match your skills." />
+      <PageHeader eyebrow="Jobs" title={`Welcome, ${user.name.split(" ")[0]}`} description="Repair jobs posted by hospitals that match your skills. Apply, or reach out to the hospital directly." />
       <VerificationBanner />
       <Tabs defaultValue="all">
         <TabsList aria-label="Job views" className="w-full sm:w-auto">
@@ -40,13 +42,19 @@ export function TechJobsBoard() {
           <JobList query={openJobs} select={byDistance} emptyTitle="No jobs near you" emptyDescription="We'll show open jobs sorted by distance from your location." />
         </TabsContent>
         <TabsContent value="mine" className="space-y-5">
-          <SegmentedControl name="my-jobs-filter" legend="Show" options={[{ value: "active", label: "Active" }, { value: "completed", label: "Completed" }]} value={myFilter} onChange={setMyFilter} className="max-w-xs [&_legend]:sr-only" />
+          <SegmentedControl name="my-jobs-filter" legend="Show" options={[{ value: "applied", label: "Applied" }, { value: "active", label: "Active" }, { value: "completed", label: "Completed" }]} value={myFilter} onChange={setMyFilter} className="max-w-sm [&_legend]:sr-only" />
           <JobList
             query={myJobs}
             select={selectMine}
             showStatus
-            emptyTitle={myFilter === "active" ? "No active jobs" : "No completed jobs yet"}
-            emptyDescription={myFilter === "active" ? "Accept a job from All jobs or Near me to get started." : "Jobs you finish will show here with their payment status."}
+            emptyTitle={{ applied: "No pending applications", active: "No active jobs", completed: "No completed jobs yet" }[myFilter]}
+            emptyDescription={
+              {
+                applied: "Jobs you've shown interest in appear here until the hospital picks a technician.",
+                active: "When a hospital assigns you a job, it shows up here.",
+                completed: "Jobs you finish will show here with their payment status.",
+              }[myFilter]
+            }
           />
         </TabsContent>
       </Tabs>

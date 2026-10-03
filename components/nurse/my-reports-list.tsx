@@ -11,6 +11,7 @@ import { EmptyState } from "@/components/ui/empty-state";
 import { Heading } from "@/components/ui/heading";
 import { useMyReports } from "@/hooks/use-jobs";
 import { formatRelative, toIsoString } from "@/lib/utils";
+import { PostReportButton } from "./post-report-button";
 
 export function MyReportsList() {
   const query = useMyReports();
@@ -26,7 +27,7 @@ export function MyReportsList() {
         {(reports) => (
           <Card className="divide-y divide-border overflow-hidden">
             <ul className="divide-y divide-border">
-              {reports.map(({ report, machine, jobStatus }) => (
+              {reports.map(({ report, machine, jobId, jobStatus }) => (
                 <li key={report.id}>
                   <article className="flex items-center justify-between gap-3 px-4 py-3.5 sm:px-5">
                     <div className="min-w-0">
@@ -35,7 +36,10 @@ export function MyReportsList() {
                         {report.category} · <time dateTime={toIsoString(report.createdAt)}>{formatRelative(report.createdAt)}</time> · <span className="font-mono">{report.id}</span>
                       </p>
                     </div>
-                    <JobStatusBadge status={jobStatus} />
+                    <div className="flex shrink-0 flex-col items-end gap-2 sm:flex-row sm:items-center">
+                      <JobStatusBadge status={jobStatus} />
+                      {jobStatus === "reported" && jobId ? <PostReportButton jobId={jobId} machineName={machine.name} /> : null}
+                    </div>
                   </article>
                 </li>
               ))}

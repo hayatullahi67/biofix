@@ -35,7 +35,7 @@ export function listTechnicianJobs(technicianId: string): Promise<JobDetails[]> 
   return query((db) => {
     const technician = findOrThrow(db.technicians, technicianId, "Technician");
     return db.jobs
-      .filter((job) => job.technicianId === technicianId)
+      .filter((job) => job.technicianId === technicianId || (job.status === "open" && job.applications.some((application) => application.technicianId === technicianId)))
       .map((job) => expandJob(db, job, technician))
       .sort(byNewest);
   });

@@ -1,20 +1,10 @@
 "use client";
 
 import { jobActionsApi, reportsApi } from "@/lib/api";
-import type { FixReportInput, NewFaultReportInput, PaymentMethod, QuoteInput } from "@/types";
+import type { FixReportInput, JobContact, NewFaultReportInput, PaymentMethod, QuoteInput } from "@/types";
 import { useApiMutation } from "./use-api-mutation";
-import { useTechnicianId } from "./use-session";
 
-const jobKeys = [["jobs"], ["machine"], ["machines"], ["stats"], ["earnings"], ["notifications"], ["technicians"]];
-
-export function useFindTechnician() {
-  return useApiMutation({ mutationFn: jobActionsApi.findTechnician, invalidate: jobKeys, successMessage: "Job posted to verified technicians nearby" });
-}
-
-export function useAcceptJob() {
-  const technicianId = useTechnicianId();
-  return useApiMutation({ mutationFn: (jobId: string) => jobActionsApi.acceptJob(jobId, technicianId), invalidate: jobKeys, successMessage: "Job accepted. The hospital has been notified." });
-}
+export const jobKeys = [["jobs"], ["machine"], ["machines"], ["stats"], ["earnings"], ["notifications"], ["technicians"]];
 
 export function useMarkArrived() {
   return useApiMutation({ mutationFn: jobActionsApi.markArrived, invalidate: jobKeys, successMessage: "Arrival confirmed" });
@@ -53,5 +43,8 @@ export function useRateJob() {
 }
 
 export function useCreateReport() {
-  return useApiMutation({ mutationFn: (input: NewFaultReportInput) => reportsApi.createFaultReport(input), invalidate: jobKeys });
+  return useApiMutation({
+    mutationFn: ({ input, contact }: { input: NewFaultReportInput; contact?: JobContact }) => reportsApi.createFaultReport(input, contact),
+    invalidate: [...jobKeys, ["messages"]],
+  });
 }

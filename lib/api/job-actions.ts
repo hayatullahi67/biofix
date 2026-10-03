@@ -4,29 +4,6 @@ import { findOrThrow, mutate } from "./client";
 import { advanceJob, assertStatus } from "./job-details";
 import { notifyHospitalAdmins, pushNotification } from "./notifications";
 
-export function findTechnician(jobId: string): Promise<Job> {
-  return mutate((db) => {
-    const job = findOrThrow(db.jobs, jobId, "Job");
-    assertStatus(job, ["reported"]);
-    advanceJob(job, "open", "Hospital admin");
-    return job;
-  });
-}
-
-export function acceptJob(jobId: string, technicianId: string): Promise<Job> {
-  return mutate((db) => {
-    const job = findOrThrow(db.jobs, jobId, "Job");
-    const technician = findOrThrow(db.technicians, technicianId, "Technician");
-    assertStatus(job, ["open"]);
-    job.technicianId = technicianId;
-    advanceJob(job, "accepted", technician.name);
-    const machine = findOrThrow(db.machines, job.machineId, "Machine");
-    machine.status = "in_repair";
-    notifyHospitalAdmins(db, job.hospitalId, { kind: "job", title: "Technician assigned", body: `${technician.name} accepted the ${machine.name} job.`, href: `/hospital/jobs?job=${job.id}` });
-    return job;
-  });
-}
-
 export function markArrived(jobId: string): Promise<Job> {
   return mutate((db) => {
     const job = findOrThrow(db.jobs, jobId, "Job");

@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 import type { JobStatus } from "@/types";
 
 const steps: { status: JobStatus; label: string }[] = [
-  { status: "accepted", label: "Accept" },
+  { status: "accepted", label: "Assigned" },
   { status: "arrived", label: "Arrive" },
   { status: "quoted", label: "Quote" },
   { status: "approved", label: "Approved" },
