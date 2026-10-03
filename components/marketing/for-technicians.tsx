@@ -8,7 +8,7 @@ import { Reveal } from "./reveal";
 
 const highlights = [
   { icon: MapPin, label: "3.2 km away", detail: "Patient monitor, Ikeja" },
-  { icon: Wallet, label: "₦95,000", detail: "Paid on confirmation" },
+  { icon: Wallet, label: "₦95,000", detail: "Paid directly by the hospital" },
   { icon: Star, label: "4.8 rating", detail: "142 jobs completed" },
 ];
 

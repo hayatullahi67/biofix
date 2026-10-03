@@ -1,14 +1,14 @@
 "use client";
 
 import { CircleCheck, Loader2, Search } from "lucide-react";
-import { useState } from "react";
 import { QuoteSummary } from "@/components/shared/quote-summary";
 import { StarRating } from "@/components/ui/star-rating";
 import { Button } from "@/components/ui/button";
 import { useApproveQuote, useConfirmJob, useFindTechnician } from "@/hooks/use-job-actions";
-import { useCurrentUser } from "@/hooks/use-session";
+import { paymentMethodLabels } from "@/lib/domain/job-flow";
+import { formatNaira } from "@/lib/utils";
 import type { JobDetails } from "@/types";
-import { PaystackDialog } from "./paystack-dialog";
+import { RecordPayment } from "./record-payment";
 import { RateTechnician } from "./rate-technician";
 
 function Notice({ children, spinning = false }: { children: React.ReactNode; spinning?: boolean }) {
@@ -21,8 +21,6 @@ function Notice({ children, spinning = false }: { children: React.ReactNode; spi
 }
 
 export function HospitalJobActions({ job }: { job: JobDetails }) {
-  const user = useCurrentUser();
-  const [payOpen, setPayOpen] = useState(false);
   const find = useFindTechnician();
   const approve = useApproveQuote();
   const confirm = useConfirmJob();
@@ -45,26 +43,40 @@ export function HospitalJobActions({ job }: { job: JobDetails }) {
       return job.quote ? (
         <div className="space-y-4">
           <QuoteSummary quote={job.quote} />
-          <Button size="lg" className="w-full" onClick={() => setPayOpen(true)}>Approve and pay</Button>
-          <PaystackDialog open={payOpen} onOpenChange={setPayOpen} amount={job.quote.total} email={user.email} loading={approve.isPending} onPay={() => approve.mutate(job.id, { onSuccess: () => setPayOpen(false) })} />
+          <Button size="lg" className="w-full" onClick={() => approve.mutate(job.id)} loading={approve.isPending}>
+            <CircleCheck aria-hidden="true" />
+            Approve quote
+          </Button>
+          <p className="text-center text-xs text-muted-foreground">You&apos;ll pay the technician directly once the repair is confirmed.</p>
         </div>
       ) : null;
     case "approved":
-      return <Notice spinning>Payment is in escrow. The technician is carrying out the repair.</Notice>;
+      return <Notice spinning>Quote approved. The technician is carrying out the repair.</Notice>;
     case "fixed":
       return (
         <div className="space-y-4">
           {job.fixReport ? <p className="rounded-xl bg-accent/60 p-4 text-sm"><strong className="font-semibold">Technician notes: </strong>{job.fixReport.notes}</p> : null}
           <Button size="lg" className="w-full" onClick={() => confirm.mutate(job.id)} loading={confirm.isPending}>
             <CircleCheck aria-hidden="true" />
-            Confirm fixed and release payment
+            Confirm machine is fixed
           </Button>
         </div>
       );
     case "confirmed":
+      return <RecordPayment job={job} />;
     case "paid":
-      if (job.rating) return <Notice><span className="flex items-center gap-2">You rated this repair <StarRating value={job.rating} /></span></Notice>;
-      return job.technician ? <RateTechnician jobId={job.id} technicianName={job.technician.name} /> : null;
+      return (
+        <div className="space-y-4">
+          <Notice>
+            Paid {formatNaira(job.payment?.amount ?? job.quote?.total ?? job.estimatedPay)} directly{job.payment ? ` by ${paymentMethodLabels[job.payment.method].toLowerCase()}` : ""}.
+          </Notice>
+          {job.rating ? (
+            <Notice><span className="flex items-center gap-2">You rated this repair <StarRating value={job.rating} /></span></Notice>
+          ) : job.technician ? (
+            <RateTechnician jobId={job.id} technicianName={job.technician.name} />
+          ) : null}
+        </div>
+      );
     case "disputed":
       return <Notice>This job is under review by the Biofix team. We&apos;ll contact you within 24 hours.</Notice>;
   }

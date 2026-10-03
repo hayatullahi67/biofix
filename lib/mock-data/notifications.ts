@@ -11,7 +11,7 @@ const rows: NotificationRow[] = [
   ["user-nurse-1", "job", "Technician on the way", "A verified technician accepted the Volumetric Pump 07 job.", "/nurse", 4, false],
   ["user-nurse-1", "job", "Machine back in service", "Haemodialysis Unit 1 repair was confirmed.", "/nurse", 30, true],
   ["tech-1", "job", "New critical job near you", "ICU Ventilator 1 at Grace Specialist Hospital, 2.2 km away.", "/tech/jobs/job-1", 3, false],
-  ["tech-1", "payment", "Payment released", "₦95,000 for the defibrillator repair is now available.", "/tech/earnings", 72, true],
+  ["tech-1", "payment", "Payment recorded", "Grace Specialist Hospital paid you ₦95,000 by bank transfer.", "/tech/earnings", 72, true],
   ["user-super-1", "system", "2 technicians awaiting review", "Halima Yusuf and Oluwaseun Adeyemi uploaded documents.", "/admin/technicians", 6, false],
   ["user-super-1", "payment", "Dispute opened", "Grace Specialist Hospital disputed job-15.", "/admin/jobs", 72, false],
 ];

@@ -10,17 +10,18 @@ import { useUpdateTechnicianProfile } from "@/hooks/use-technicians";
 import { technicianProfileSchema, type TechnicianProfileValues } from "@/lib/validation/technician";
 import { technicianSkills, type Technician } from "@/types";
 import { AvatarUpload } from "./avatar-upload";
+import { BankDetailsFields } from "./bank-details-fields";
 
 export function ProfileForm({ technician }: { technician: Technician }) {
   const update = useUpdateTechnicianProfile();
   const { control, register, handleSubmit, formState: { errors, isDirty } } = useForm<TechnicianProfileValues>({
     resolver: zodResolver(technicianProfileSchema),
-    values: { name: technician.name, phone: technician.phone, area: technician.location.area, city: technician.location.city, bio: technician.bio, skills: technician.skills, avatarUrl: technician.avatarUrl },
+    values: { name: technician.name, phone: technician.phone, area: technician.location.area, city: technician.location.city, bio: technician.bio, skills: technician.skills, avatarUrl: technician.avatarUrl, bankAccount: technician.bankAccount ?? { bankName: "", accountNumber: "", accountName: "" } },
   });
   const name = useWatch({ control, name: "name" });
 
   return (
-    <form onSubmit={handleSubmit((values) => update.mutate(values))} noValidate className="space-y-6">
+    <form onSubmit={handleSubmit((values) => update.mutate({ ...values, bankAccount: values.bankAccount.accountNumber ? values.bankAccount : undefined }))} noValidate className="space-y-6">
       <Controller control={control} name="avatarUrl" render={({ field }) => <AvatarUpload name={name} value={field.value} onChange={field.onChange} />} />
       <fieldset className="grid gap-4 sm:grid-cols-2">
         <legend className="sr-only">Personal details</legend>
@@ -43,6 +44,7 @@ export function ProfileForm({ technician }: { technician: Technician }) {
       <Controller control={control} name="skills" render={({ field }) => (
         <ChipGroup legend="Skills" name="profile-skills" options={technicianSkills} value={field.value} onChange={field.onChange} multiple error={errors.skills?.message} />
       )} />
+      <BankDetailsFields register={register} errors={errors} />
       <Button type="submit" disabled={!isDirty} loading={update.isPending}>Save profile</Button>
     </form>
   );

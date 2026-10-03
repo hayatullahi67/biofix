@@ -22,7 +22,7 @@ export const pricingPlans: PricingPlan[] = [
       "Preventive maintenance reminders",
       "NHIA-ready maintenance reports",
       "Priority technician matching",
-      "Escrow payments with Paystack",
+      "Itemised quotes and payment records",
       "Dedicated account manager",
     ],
     cta: "Start 14-day trial",

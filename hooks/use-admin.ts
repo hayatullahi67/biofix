@@ -9,10 +9,6 @@ export function usePlatformStats() {
   return useQuery({ queryKey: [...queryKeys.admin, "stats"], queryFn: adminApi.getPlatformStats });
 }
 
-export function usePayouts() {
-  return useQuery({ queryKey: [...queryKeys.admin, "payouts"], queryFn: adminApi.listPayouts });
-}
-
 export function useDisputes() {
   return useQuery({ queryKey: [...queryKeys.admin, "disputes"], queryFn: adminApi.listDisputes });
 }

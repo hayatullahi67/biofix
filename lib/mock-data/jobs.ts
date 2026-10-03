@@ -78,6 +78,7 @@ export const seedJobs: Job[] = rows.map(([machineIndex, status, , , , , technici
       at: hoursAgo(hours - stepGap * stepIndex),
     })),
     estimatedPay: pay,
+    payment: status === "paid" ? { method: "bank_transfer", amount: pay, paidAt: hoursAgo(Math.max(0, hours - stepGap * (steps.length - 1))) } : undefined,
     rating: status === "paid" ? 5 : undefined,
     createdAt: hoursAgo(hours),
     updatedAt: hoursAgo(Math.max(0, hours - stepGap * (steps.length - 1))),

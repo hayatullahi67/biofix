@@ -22,7 +22,7 @@ const jobTones: Record<JobStatus, BadgeTone> = {
   quoted: "warning",
   approved: "info",
   fixed: "primary",
-  confirmed: "success",
+  confirmed: "warning",
   paid: "success",
   disputed: "danger",
 };

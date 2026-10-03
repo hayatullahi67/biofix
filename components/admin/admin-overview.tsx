@@ -23,10 +23,10 @@ export function AdminOverview() {
               <StatCard label="Hospitals" value={data.hospitals} icon={Building2} footnote="On Free and Premium" />
               <StatCard label="Verified technicians" value={data.technicians} icon={ShieldCheck} tone="success" footnote={`${data.pendingVerifications} awaiting review`} />
               <StatCard label="Jobs" value={data.jobs} icon={ClipboardList} tone="info" footnote="All time" />
-              <StatCard label="Revenue" value={formatCompactNaira(data.revenue)} icon={Banknote} tone="warning" footnote="Fees and subscriptions" />
+              <StatCard label="Revenue" value={formatCompactNaira(data.revenue)} icon={Banknote} tone="warning" footnote="Hospital subscriptions" />
             </StatGrid>
             <div className="grid gap-6 lg:grid-cols-2">
-              <ChartCard id="revenue-chart" title="Revenue by month" description="Platform fees plus subscriptions" query={revenue} kind="area" seriesLabel="Revenue" formatValue={formatNaira} formatAxis={formatCompactNaira} />
+              <ChartCard id="revenue-chart" title="Revenue by month" description="Hospital subscription revenue" query={revenue} kind="area" seriesLabel="Revenue" formatValue={formatNaira} formatAxis={formatCompactNaira} />
               <ChartCard id="jobs-chart" title="Jobs by month" description="Repair jobs settled on Biofix" query={jobs} kind="bar" seriesLabel="Jobs" />
             </div>
             <AttentionList stats={data} />

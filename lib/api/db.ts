@@ -1,6 +1,6 @@
 import { createSeedDatabase, type MockDatabase } from "@/lib/mock-data";
 
-const STORAGE_KEY = "biofix:mock-db:v1";
+const STORAGE_KEY = "biofix:mock-db:v2";
 
 let database: MockDatabase | null = null;
 

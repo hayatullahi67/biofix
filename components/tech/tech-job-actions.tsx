@@ -48,7 +48,7 @@ export function TechJobActions({ job }: { job: JobDetails }) {
     case "quoted":
       return (
         <div className="space-y-4">
-          <Waiting>Quote sent. Waiting for the hospital to approve and pay.</Waiting>
+          <Waiting>Quote sent. Waiting for the hospital to approve it.</Waiting>
           {job.quote ? <QuoteSummary quote={job.quote} /> : null}
         </div>
       );
@@ -57,8 +57,9 @@ export function TechJobActions({ job }: { job: JobDetails }) {
     case "fixed":
       return <Waiting>Waiting for the hospital to confirm the repair.</Waiting>;
     case "confirmed":
+      return <Waiting>Repair confirmed. Collect {formatNaira(job.quote?.total ?? job.estimatedPay)} directly from the hospital by cash or bank transfer.</Waiting>;
     case "paid":
-      return <Waiting done>Paid {formatNaira(job.quote?.total ?? job.estimatedPay)}. The money is in your available balance.</Waiting>;
+      return <Waiting done>The hospital recorded paying you {formatNaira(job.payment?.amount ?? job.quote?.total ?? job.estimatedPay)}{job.payment ? ` by ${job.payment.method === "cash" ? "cash" : "bank transfer"}` : ""}.</Waiting>;
     case "disputed":
       return <Waiting>The hospital opened a dispute. The Biofix team will contact you.</Waiting>;
     default:

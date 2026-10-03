@@ -10,6 +10,14 @@ export const technicianProfileSchema = z.object({
   bio: z.string().trim().max(280, "Keep your bio under 280 characters"),
   skills: z.array(z.enum(technicianSkills)).min(1, "Pick at least one skill"),
   avatarUrl: z.string().optional(),
+  bankAccount: z
+    .object({ bankName: z.string().trim(), accountNumber: z.string().trim(), accountName: z.string().trim() })
+    .superRefine((bank, ctx) => {
+      if (!bank.bankName && !bank.accountNumber && !bank.accountName) return;
+      if (bank.bankName.length < 2) ctx.addIssue({ code: "custom", path: ["bankName"], message: "Enter your bank" });
+      if (!/^\d{10}$/.test(bank.accountNumber)) ctx.addIssue({ code: "custom", path: ["accountNumber"], message: "Account numbers have 10 digits" });
+      if (bank.accountName.length < 3) ctx.addIssue({ code: "custom", path: ["accountName"], message: "Enter the account name" });
+    }),
 });
 
 export type TechnicianProfileValues = z.infer<typeof technicianProfileSchema>;

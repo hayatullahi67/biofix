@@ -1,7 +1,7 @@
 "use client";
 
 import { jobActionsApi, reportsApi } from "@/lib/api";
-import type { FixReportInput, NewFaultReportInput, QuoteInput } from "@/types";
+import type { FixReportInput, NewFaultReportInput, PaymentMethod, QuoteInput } from "@/types";
 import { useApiMutation } from "./use-api-mutation";
 import { useTechnicianId } from "./use-session";
 
@@ -25,7 +25,7 @@ export function useSendQuote(jobId: string) {
 }
 
 export function useApproveQuote() {
-  return useApiMutation({ mutationFn: jobActionsApi.approveQuote, invalidate: jobKeys, successMessage: "Payment successful. Funds are held in escrow." });
+  return useApiMutation({ mutationFn: jobActionsApi.approveQuote, invalidate: jobKeys, successMessage: "Quote approved. The technician can start the repair." });
 }
 
 export function useMarkFixed(jobId: string) {
@@ -33,7 +33,15 @@ export function useMarkFixed(jobId: string) {
 }
 
 export function useConfirmJob() {
-  return useApiMutation({ mutationFn: jobActionsApi.confirmJob, invalidate: jobKeys, successMessage: "Repair confirmed and technician paid" });
+  return useApiMutation({ mutationFn: jobActionsApi.confirmJob, invalidate: jobKeys, successMessage: "Repair confirmed. Pay the technician directly, then mark it as paid." });
+}
+
+export function useMarkPaid() {
+  return useApiMutation({
+    mutationFn: ({ jobId, method }: { jobId: string; method: PaymentMethod }) => jobActionsApi.markPaid(jobId, method),
+    invalidate: jobKeys,
+    successMessage: "Payment recorded",
+  });
 }
 
 export function useRateJob() {

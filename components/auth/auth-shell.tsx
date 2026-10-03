@@ -8,7 +8,7 @@ interface AuthShellProps {
   children: React.ReactNode;
 }
 
-const points = ["Live register of every machine", "QR fault reporting for nurses", "Verified biomedical technicians", "Escrow payments with Paystack"];
+const points = ["Live register of every machine", "QR fault reporting for nurses", "Verified biomedical technicians", "Itemised quotes before every repair"];
 
 export function AuthShell({ title, description, children }: AuthShellProps) {
   return (

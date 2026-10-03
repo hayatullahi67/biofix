@@ -19,7 +19,7 @@ export const faqItems: FaqItem[] = [
   {
     question: "How does payment work?",
     answer:
-      "The technician sends a quote with parts and labour. When you approve it, you pay through Paystack and the money is held in escrow. The technician is paid only after you confirm the machine is working again.",
+      "The technician sends an itemised quote with parts and labour, and you approve it before any work starts. Once you confirm the machine is working again, you pay the technician directly by cash or bank transfer and mark the job as paid, so Biofix keeps a full record.",
   },
   {
     question: "Does Biofix help with NHIA accreditation?",

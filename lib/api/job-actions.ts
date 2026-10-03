@@ -1,4 +1,4 @@
-import type { FixReportInput, Job, QuoteInput } from "@/types";
+import type { FixReportInput, Job, PaymentMethod, QuoteInput } from "@/types";
 import { createId, nowIso } from "@/lib/utils";
 import { findOrThrow, mutate } from "./client";
 import { advanceJob, assertStatus } from "./job-details";
@@ -52,9 +52,9 @@ export function approveQuote(jobId: string): Promise<Job> {
   return mutate((db) => {
     const job = findOrThrow(db.jobs, jobId, "Job");
     assertStatus(job, ["quoted"]);
-    advanceJob(job, "approved", "Paystack");
+    advanceJob(job, "approved", "Hospital admin");
     if (job.technicianId) {
-      pushNotification(db, { userId: job.technicianId, kind: "payment", title: "Quote approved", body: "Payment is held in escrow. You can start the repair.", href: `/tech/jobs/${job.id}` });
+      pushNotification(db, { userId: job.technicianId, kind: "job", title: "Quote approved", body: "The hospital approved your quote. You can start the repair.", href: `/tech/jobs/${job.id}` });
     }
     return job;
   });
@@ -78,15 +78,30 @@ export function confirmJob(jobId: string): Promise<Job> {
     advanceJob(job, "confirmed", "Hospital admin");
     const machine = findOrThrow(db.machines, job.machineId, "Machine");
     machine.status = "working";
-    db.machineEvents.push({ id: createId("ev"), machineId: machine.id, type: "repair", title: "Repair confirmed", description: job.fixReport?.notes ?? "Repair confirmed by hospital.", date: nowIso(), actor: db.technicians.find((tech) => tech.id === job.technicianId)?.name });
-    const amount = job.quote?.total ?? job.estimatedPay;
     const technician = db.technicians.find((tech) => tech.id === job.technicianId);
-    if (technician) technician.completedJobs += 1;
-    if (job.technicianId) {
-      db.transactions.unshift({ id: createId("txn"), technicianId: job.technicianId, type: "job_payment", amount, status: "available", description: `${machine.name} repair`, createdAt: nowIso() });
-      pushNotification(db, { userId: job.technicianId, kind: "payment", title: "Payment released", body: `₦${amount.toLocaleString("en-NG")} is now available to withdraw.`, href: "/tech/earnings" });
+    db.machineEvents.push({ id: createId("ev"), machineId: machine.id, type: "repair", title: "Repair confirmed", description: job.fixReport?.notes ?? "Repair confirmed by hospital.", date: nowIso(), actor: technician?.name });
+    if (technician) {
+      technician.completedJobs += 1;
+      pushNotification(db, { userId: technician.id, kind: "job", title: "Repair confirmed", body: `${machine.name} is back in service. The hospital will pay you directly.`, href: `/tech/jobs/${job.id}` });
     }
-    advanceJob(job, "paid", "Biofix");
+    return job;
+  });
+}
+
+export function markPaid(jobId: string, method: PaymentMethod): Promise<Job> {
+  return mutate((db) => {
+    const job = findOrThrow(db.jobs, jobId, "Job");
+    assertStatus(job, ["confirmed"]);
+    const amount = job.quote?.total ?? job.estimatedPay;
+    const paidAt = nowIso();
+    job.payment = { method, amount, paidAt };
+    advanceJob(job, "paid", "Hospital admin");
+    const machine = findOrThrow(db.machines, job.machineId, "Machine");
+    if (job.technicianId) {
+      db.transactions.unshift({ id: createId("txn"), technicianId: job.technicianId, jobId, amount, method, description: `${machine.name} repair`, createdAt: paidAt });
+      const via = method === "cash" ? "in cash" : "by bank transfer";
+      pushNotification(db, { userId: job.technicianId, kind: "payment", title: "Payment recorded", body: `The hospital recorded paying you ₦${amount.toLocaleString("en-NG")} ${via}.`, href: "/tech/earnings" });
+    }
     return job;
   });
 }

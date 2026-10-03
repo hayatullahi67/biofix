@@ -1,4 +1,4 @@
-import type { JobStatus, JobTab, MachineType, TechnicianSkill, Urgency } from "@/types";
+import type { JobStatus, JobTab, MachineType, PaymentMethod, TechnicianSkill, Urgency } from "@/types";
 
 export const jobStatusLabels: Record<JobStatus, string> = {
   reported: "Reported",
@@ -8,7 +8,7 @@ export const jobStatusLabels: Record<JobStatus, string> = {
   quoted: "Quote received",
   approved: "Quote approved",
   fixed: "Awaiting confirmation",
-  confirmed: "Confirmed",
+  confirmed: "Awaiting payment",
   paid: "Paid",
   disputed: "Disputed",
 };
@@ -19,10 +19,10 @@ export const jobTimelineLabels: Record<JobStatus, string> = {
   accepted: "Job accepted",
   arrived: "Technician arrived on site",
   quoted: "Quote sent",
-  approved: "Quote approved and paid into escrow",
+  approved: "Quote approved",
   fixed: "Marked as fixed",
   confirmed: "Repair confirmed by hospital",
-  paid: "Technician paid",
+  paid: "Paid directly to technician",
   disputed: "Dispute opened",
 };
 
@@ -71,3 +71,5 @@ export function statusIndex(status: JobStatus): number {
 export function hasReached(current: JobStatus, target: JobStatus): boolean {
   return current !== "disputed" && statusIndex(current) >= statusIndex(target);
 }
+
+export const paymentMethodLabels: Record<PaymentMethod, string> = { cash: "Cash", bank_transfer: "Bank transfer" };

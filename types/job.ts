@@ -1,5 +1,6 @@
 import type { Hospital } from "./hospital";
 import type { Machine } from "./machine";
+import type { JobPayment } from "./payment";
 import type { Technician } from "./technician";
 import type { User } from "./user";
 
@@ -82,6 +83,7 @@ export interface Job {
   status: JobStatus;
   quote?: Quote;
   fixReport?: FixReport;
+  payment?: JobPayment;
   timeline: JobTimelineEvent[];
   estimatedPay: number;
   rating?: number;
