@@ -9,20 +9,22 @@ interface JobCardProps {
   job: JobDetails;
   href: string;
   showStatus?: boolean;
+  headingLevel?: 2 | 3;
 }
 
-export function JobCard({ job, href, showStatus = false }: JobCardProps) {
+export function JobCard({ job, href, showStatus = false, headingLevel = 3 }: JobCardProps) {
+  const HeadingTag = `h${headingLevel}` as const;
   const pay = job.quote?.total ?? job.estimatedPay;
   return (
     <Card as="article" interactive className="relative flex flex-col gap-4 p-5">
       <header className="flex items-start justify-between gap-3">
         <div className="min-w-0 space-y-1">
-          <p className="text-xs font-medium uppercase tracking-wide text-primary">{job.machine.type}</p>
-          <h3 className="truncate text-base font-semibold tracking-tight">
-            <Link href={href} className="after:absolute after:inset-0 after:rounded-2xl focus-visible:outline-none">
-              {job.report.category}: {job.machine.name}
+          <p className="truncate text-xs font-medium text-primary">{job.machine.type} · {job.report.category}</p>
+          <HeadingTag className="line-clamp-1 text-base font-semibold tracking-tight">
+            <Link href={href} scroll={!href.includes("?")} className="after:absolute after:inset-0 after:rounded-2xl focus-visible:outline-none">
+              {job.machine.name}
             </Link>
-          </h3>
+          </HeadingTag>
         </div>
         {showStatus ? <JobStatusBadge status={job.status} /> : <UrgencyBadge urgency={job.report.urgency} />}
       </header>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { machinesApi } from "@/lib/api";
 import type { MachineFilters, NewMachineInput } from "@/types";
 import { queryKeys } from "./query-keys";
@@ -9,7 +9,7 @@ import { useHospitalId } from "./use-session";
 
 export function useMachines(filters: MachineFilters = {}) {
   const hospitalId = useHospitalId();
-  return useQuery({ queryKey: queryKeys.machines(hospitalId, filters), queryFn: () => machinesApi.listMachines(hospitalId, filters), enabled: Boolean(hospitalId) });
+  return useQuery({ queryKey: queryKeys.machines(hospitalId, filters), queryFn: () => machinesApi.listMachines(hospitalId, filters), enabled: Boolean(hospitalId), placeholderData: keepPreviousData });
 }
 
 export function useMachine(id: string) {

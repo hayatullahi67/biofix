@@ -19,6 +19,7 @@ const withSerwist = withSerwistInit({
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
+  turbopack: {},
   images: {
     formats: ["image/avif", "image/webp"],
   },

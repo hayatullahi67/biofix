@@ -19,7 +19,7 @@ interface FilterSelectProps {
 export function FilterSelect({ label, value, options, onChange }: FilterSelectProps) {
   const id = useId();
   return (
-    <div className="min-w-0 flex-1 sm:w-44 sm:flex-none">
+    <div className="min-w-0 sm:w-44">
       <label htmlFor={id} className="sr-only">
         {label}
       </label>
@@ -36,7 +36,7 @@ export function FilterSelect({ label, value, options, onChange }: FilterSelectPr
 
 export function FilterBar({ children, className }: { children: React.ReactNode; className?: string }) {
   return (
-    <div role="group" aria-label="Filters" className={cn("flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center", className)}>
+    <div role="group" aria-label="Filters" className={cn("grid auto-cols-fr grid-flow-col gap-2 sm:flex sm:flex-wrap sm:items-center", className)}>
       {children}
     </div>
   );

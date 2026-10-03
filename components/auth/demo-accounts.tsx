@@ -35,7 +35,8 @@ export function DemoAccounts() {
                   <Icon className={pending ? "size-4 animate-pulse" : "size-4"} aria-hidden="true" />
                 </span>
                 <span className="min-w-0 flex-1">
-                  <span className="block text-sm font-medium">Login as {account.label}</span>
+                  <span className="block text-[11px] text-muted-foreground">Login as</span>
+                  <span className="block truncate text-sm font-semibold">{account.label}</span>
                   <span className="block truncate text-xs text-muted-foreground">{account.description}</span>
                 </span>
                 <ArrowRight className="size-4 text-muted-foreground transition-transform group-hover:translate-x-0.5" aria-hidden="true" />

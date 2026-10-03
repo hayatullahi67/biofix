@@ -80,19 +80,14 @@
 }
 
 @media print {
-  body * {
-    visibility: hidden;
+  body > :not(.print-root) {
+    display: none !important;
   }
-  .print-area,
-  .print-area * {
-    visibility: visible;
-  }
-  .print-area {
-    position: absolute;
-    inset: 0;
+  .print-root {
+    display: block !important;
   }
   @page {
-    margin: 12mm;
+    margin: 10mm;
   }
 }
 
