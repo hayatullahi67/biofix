@@ -106,3 +106,8 @@ export interface ReportSummary {
   jobId: string;
   jobStatus: JobStatus;
 }
+
+export interface CreatedReport {
+  report: FaultReport;
+  job: Job;
+}

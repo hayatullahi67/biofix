@@ -13,7 +13,7 @@ export const buttonVariants = cva(
         secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/70",
         outline: "border border-border bg-card text-foreground shadow-[var(--shadow-soft)] hover:bg-muted",
         ghost: "text-foreground hover:bg-muted",
-        danger: "bg-danger text-white hover:bg-danger/90",
+        danger: "bg-danger text-white hover:bg-danger/90 dark:text-slate-950",
         "danger-outline": "border border-danger/30 bg-card text-danger hover:bg-danger-soft",
         link: "h-auto rounded-md px-0 text-primary underline-offset-4 hover:underline",
       },

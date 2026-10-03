@@ -1,13 +1,8 @@
-import type { FaultReport, Job, NewFaultReportInput, ReportSummary } from "@/types";
+import type { CreatedReport, FaultReport, Job, NewFaultReportInput, ReportSummary } from "@/types";
 import { estimatePay, jobTimelineLabels } from "@/lib/domain/job-flow";
 import { createId, nowIso } from "@/lib/utils";
 import { findOrThrow, mutate, query } from "./client";
 import { notifyHospitalAdmins } from "./notifications";
-
-export interface CreatedReport {
-  report: FaultReport;
-  job: Job;
-}
 
 export function createFaultReport(input: NewFaultReportInput): Promise<CreatedReport> {
   return mutate((db) => {

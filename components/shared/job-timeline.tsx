@@ -1,10 +1,10 @@
 import { jobFlow, jobTimelineLabels } from "@/lib/domain/job-flow";
-import type { JobDetails, JobStatus } from "@/types";
+import type { Job, JobStatus } from "@/types";
 import { Timeline, type TimelineTone } from "./timeline";
 
 const tones: Partial<Record<JobStatus, TimelineTone>> = { reported: "danger", disputed: "danger", paid: "success", confirmed: "success", fixed: "primary" };
 
-export function JobTimeline({ job }: { job: JobDetails }) {
+export function JobTimeline({ job }: { job: Pick<Job, "timeline" | "status"> }) {
   const reached = new Set(job.timeline.map((event) => event.status));
   const upcoming = job.status === "disputed" ? [] : jobFlow.filter((status) => !reached.has(status));
   return (
