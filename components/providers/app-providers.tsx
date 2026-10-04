@@ -1,5 +1,6 @@
 import { InstallPrompt } from "@/components/pwa/install-prompt";
 import { OfflineBanner } from "@/components/pwa/offline-banner";
+import { ServiceWorkerUpdater } from "@/components/pwa/service-worker-updater";
 import { Toaster } from "@/components/ui/toaster";
 import { QueryProvider } from "./query-provider";
 import { StoreHydrator } from "./store-hydrator";
@@ -14,6 +15,7 @@ export function AppProviders({ children }: { children: React.ReactNode }) {
         <Toaster />
         <OfflineBanner />
         <InstallPrompt />
+        <ServiceWorkerUpdater />
       </QueryProvider>
     </ThemeProvider>
   );
